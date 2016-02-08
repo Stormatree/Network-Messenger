@@ -1,0 +1,71 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{1D612DB0-97F6-4DC7-895B-708F3129DF4A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Main", "main\Main.vcxproj", "{128FCD9F-E621-448F-BD11-375EF3FA9400}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8AB3504F-5E58-4910-AFE8-7A1E595AC3F4} = {8AB3504F-5E58-4910-AFE8-7A1E595AC3F4}
+		{81CE8DAF-EBB2-4761-8E45-B71ABCCA8C68} = {81CE8DAF-EBB2-4761-8E45-B71ABCCA8C68}
+		{DA956FD3-E142-46F2-9DD5-C78BEBB56B7A} = {DA956FD3-E142-46F2-9DD5-C78BEBB56B7A}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SDL2", "project\SDL.vcxproj", "{81CE8DAF-EBB2-4761-8E45-B71ABCCA8C68}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SDL2_net", "project\SDL_net.vcxproj", "{8AB3504F-5E58-4910-AFE8-7A1E595AC3F4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{81CE8DAF-EBB2-4761-8E45-B71ABCCA8C68} = {81CE8DAF-EBB2-4761-8E45-B71ABCCA8C68}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SDL2main", "project\SDLmain.vcxproj", "{DA956FD3-E142-46F2-9DD5-C78BEBB56B7A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{128FCD9F-E621-448F-BD11-375EF3FA9400}.Debug|Win32.ActiveCfg = Debug|Win32
+		{128FCD9F-E621-448F-BD11-375EF3FA9400}.Debug|Win32.Build.0 = Debug|Win32
+		{128FCD9F-E621-448F-BD11-375EF3FA9400}.Debug|x64.ActiveCfg = Debug|Win32
+		{128FCD9F-E621-448F-BD11-375EF3FA9400}.Release|Win32.ActiveCfg = Release|Win32
+		{128FCD9F-E621-448F-BD11-375EF3FA9400}.Release|Win32.Build.0 = Release|Win32
+		{128FCD9F-E621-448F-BD11-375EF3FA9400}.Release|x64.ActiveCfg = Release|Win32
+		{81CE8DAF-EBB2-4761-8E45-B71ABCCA8C68}.Debug|Win32.ActiveCfg = Debug|Win32
+		{81CE8DAF-EBB2-4761-8E45-B71ABCCA8C68}.Debug|Win32.Build.0 = Debug|Win32
+		{81CE8DAF-EBB2-4761-8E45-B71ABCCA8C68}.Debug|x64.ActiveCfg = Debug|x64
+		{81CE8DAF-EBB2-4761-8E45-B71ABCCA8C68}.Debug|x64.Build.0 = Debug|x64
+		{81CE8DAF-EBB2-4761-8E45-B71ABCCA8C68}.Release|Win32.ActiveCfg = Release|Win32
+		{81CE8DAF-EBB2-4761-8E45-B71ABCCA8C68}.Release|Win32.Build.0 = Release|Win32
+		{81CE8DAF-EBB2-4761-8E45-B71ABCCA8C68}.Release|x64.ActiveCfg = Release|x64
+		{81CE8DAF-EBB2-4761-8E45-B71ABCCA8C68}.Release|x64.Build.0 = Release|x64
+		{8AB3504F-5E58-4910-AFE8-7A1E595AC3F4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8AB3504F-5E58-4910-AFE8-7A1E595AC3F4}.Debug|Win32.Build.0 = Debug|Win32
+		{8AB3504F-5E58-4910-AFE8-7A1E595AC3F4}.Debug|x64.ActiveCfg = Debug|x64
+		{8AB3504F-5E58-4910-AFE8-7A1E595AC3F4}.Debug|x64.Build.0 = Debug|x64
+		{8AB3504F-5E58-4910-AFE8-7A1E595AC3F4}.Release|Win32.ActiveCfg = Release|Win32
+		{8AB3504F-5E58-4910-AFE8-7A1E595AC3F4}.Release|Win32.Build.0 = Release|Win32
+		{8AB3504F-5E58-4910-AFE8-7A1E595AC3F4}.Release|x64.ActiveCfg = Release|x64
+		{8AB3504F-5E58-4910-AFE8-7A1E595AC3F4}.Release|x64.Build.0 = Release|x64
+		{DA956FD3-E142-46F2-9DD5-C78BEBB56B7A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DA956FD3-E142-46F2-9DD5-C78BEBB56B7A}.Debug|Win32.Build.0 = Debug|Win32
+		{DA956FD3-E142-46F2-9DD5-C78BEBB56B7A}.Debug|x64.ActiveCfg = Debug|x64
+		{DA956FD3-E142-46F2-9DD5-C78BEBB56B7A}.Debug|x64.Build.0 = Debug|x64
+		{DA956FD3-E142-46F2-9DD5-C78BEBB56B7A}.Release|Win32.ActiveCfg = Release|Win32
+		{DA956FD3-E142-46F2-9DD5-C78BEBB56B7A}.Release|Win32.Build.0 = Release|Win32
+		{DA956FD3-E142-46F2-9DD5-C78BEBB56B7A}.Release|x64.ActiveCfg = Release|x64
+		{DA956FD3-E142-46F2-9DD5-C78BEBB56B7A}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{81CE8DAF-EBB2-4761-8E45-B71ABCCA8C68} = {1D612DB0-97F6-4DC7-895B-708F3129DF4A}
+		{8AB3504F-5E58-4910-AFE8-7A1E595AC3F4} = {1D612DB0-97F6-4DC7-895B-708F3129DF4A}
+		{DA956FD3-E142-46F2-9DD5-C78BEBB56B7A} = {1D612DB0-97F6-4DC7-895B-708F3129DF4A}
+	EndGlobalSection
+EndGlobal
