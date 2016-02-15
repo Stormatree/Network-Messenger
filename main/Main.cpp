@@ -1,4 +1,5 @@
 #include "Client.hpp"
+#include "Server.hpp"
 
 #include <string>
 #include <iostream>
@@ -8,6 +9,11 @@ int main(int argc, char *argv[]){
 		std::cout << "SDL_Init: " << SDL_GetError() << "\n";
 		return 1;
 	}
+
+	Server server;
+
+	server.open(1337, 4);
+
 
 	Client client;
 
@@ -22,6 +28,8 @@ int main(int argc, char *argv[]){
 				break;
 
 			client.send(message);
+
+			std::this_thread::sleep_for(std::chrono::milliseconds(500));
 		}
 
 		client.close();

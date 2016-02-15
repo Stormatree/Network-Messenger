@@ -14,7 +14,7 @@ public:
 	Client();
 	~Client();
 
-	bool open(const std::string& host, int port);
+	bool open(const std::string& host, unsigned int port);
 
 	void send(const std::string& data);
 

@@ -14,7 +14,7 @@ Client::~Client(){
 	SDLNet_Quit();
 }
 
-bool Client::open(const std::string& host, int port){
+bool Client::open(const std::string& host, unsigned int port){
 	close();
 
 	_port = port;
