@@ -10,20 +10,24 @@ class Server{
 	IPaddress _ip;
 	unsigned int _port;
 	TCPsocket _socket;
-	
-	std::unordered_map<unsigned int, TCPsocket> _clients;
-
-	unsigned int _maxClients;
-
-	std::string _password = "";
-
-	std::thread _thread;
 
 	bool _open = false;
 
-	void _register(TCPsocket socket);
+	std::string _password = "";
+
+
+	unsigned int _maxClients;
+	std::unordered_map<unsigned int, TCPsocket> _clients;
+
+
+
+	std::thread _thread;
+
+
+	int _register(TCPsocket socket);
 
 	void _send(unsigned int client, const std::string& data);
+
 	void _recieve(unsigned int client, const std::string& data);
 
 public:
@@ -33,6 +37,7 @@ public:
 	bool open(unsigned int port, unsigned int maxClients = 8, std::string password = "");
 
 	void close();
+
 
 	friend void server_thread(Server* instance);
 };

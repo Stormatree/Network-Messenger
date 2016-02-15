@@ -14,26 +14,28 @@ int main(int argc, char *argv[]){
 
 	server.open(1337, 4);
 
+	getchar();
 
-	Client client;
 
-	if (client.open("localhost", 1337)){
-		while (1){
-			std::string message;
-
-			std::cout << ">>> ";
-			std::cin >> message;
-
-			if (message == "q")
-				break;
-
-			client.send(message);
-
-			std::this_thread::sleep_for(std::chrono::milliseconds(500));
-		}
-
-		client.close();
-	}
+	//Client client;
+	//
+	//if (client.open("localhost", 1337)){
+	//	while (1){
+	//		std::string message;
+	//
+	//		std::cout << ">>> ";
+	//		std::cin >> message;
+	//
+	//		if (message == "q")
+	//			break;
+	//
+	//		client.send(message);
+	//
+	//		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	//	}
+	//
+	//	client.close();
+	//}
 
 	SDL_Quit();
 
