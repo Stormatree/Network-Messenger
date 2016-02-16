@@ -11,9 +11,9 @@ class Client : public Socket{
 public:
 	bool open(const std::string& host, unsigned int port);
 
-	void send(const std::string& data);
-
 	void close();
+
+	void send(const std::string& data);
 
 	friend void clientThread(Client* server);
 };
