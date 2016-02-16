@@ -1,45 +1,32 @@
 #pragma once
 
-#include <SDL_net.h>
-#include <iostream>
-#include <vector>
+#include "Socket.hpp"
+
 #include <thread>
 #include <unordered_map>
 
-class Server{
-	IPaddress _ip;
-	unsigned int _port;
-	TCPsocket _socket;
-
-	bool _open = false;
-
-	std::string _password = "";
-
-
+class Server : public Socket{
 	unsigned int _maxClients;
 	std::unordered_map<unsigned int, TCPsocket> _clients;
 
-
-
 	std::thread _thread;
+	
+	void _checkServer();
+	void _checkClients();
 
+	SDLNet_SocketSet _socketSet();
 
 	int _register(TCPsocket socket);
 
-	void _send(unsigned int client, const std::string& data);
-
-	void _recieve(unsigned int client, const std::string& data);
+	void _sendAll(const std::string& message);
+	void _sendExcluding(unsigned int client, const std::string& message);
 
 public:
-	Server();
-	~Server();
-
-	bool open(unsigned int port, unsigned int maxClients = 8, std::string password = "");
+	bool open(unsigned int port, unsigned int maxClients = 8);
 
 	void close();
 
-
-	friend void server_thread(Server* instance);
+	friend void serverThread(Server* server);
 };
 
-void server_thread(Server* instance);
+void serverThread(Server* server);

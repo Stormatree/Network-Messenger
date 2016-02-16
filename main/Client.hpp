@@ -1,22 +1,21 @@
 #pragma once
 
-#include <SDL_net.h>
+#include "Socket.hpp"
+
 #include <string>
+#include <thread>
 
-class Client{
-	IPaddress _ip;
-	unsigned int _port;
-	TCPsocket _socket;
-
-	bool _open = false;
+class Client : public Socket{
+	std::thread _thread;
 
 public:
-	Client();
-	~Client();
-
 	bool open(const std::string& host, unsigned int port);
 
 	void send(const std::string& data);
 
 	void close();
+
+	friend void clientThread(Client* server);
 };
+
+void clientThread(Client* client);

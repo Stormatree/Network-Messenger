@@ -2,16 +2,16 @@
 
 #include <iostream>
 
-Client::Client(){
-	if (SDLNet_Init() == -1){
-		std::cout << "SDLNet_Init: " << SDLNet_GetError() << "\n";
-		return;
-	}
-}
+void clientThread(Client* client){
+	while (client->_open){
 
-Client::~Client(){
-	close();
-	SDLNet_Quit();
+		std::string message;
+
+		if (client->_getMessage(client->_socket, message) == false)
+			break;
+
+		std::cout << message << "\n";
+	}
 }
 
 bool Client::open(const std::string& host, unsigned int port){
@@ -33,26 +33,23 @@ bool Client::open(const std::string& host, unsigned int port){
 
 	_open = true;
 
+	_thread = std::thread(clientThread, this);
+
 	return true;
 }
 
 void Client::send(const std::string& data){
-	if (!_open){
-		std::cout << "Client not open!\n";
-		return;
-	}
+	_sendMessage(_socket, data);
 
-	int length = data.length() * sizeof(char);
-
-	int result = SDLNet_TCP_Send(_socket, data.c_str(), length);
-
-	if (result < length)
-		std::cout << "SDLNet_TCP_Send: " << SDLNet_GetError() << "\n";
+	// Should probably make this push to some sort of stack buffer, for later use in thread
 }
 
 void Client::close(){
 	if (_open){
-		SDLNet_TCP_Close(_socket);
 		_open = false;
+
+		_thread.join();
+
+		SDLNet_TCP_Close(_socket);
 	}
 }

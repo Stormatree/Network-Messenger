@@ -1,21 +1,16 @@
 #include "Server.hpp"
 
-#include <chrono>
+#include <iostream>
+#include <string>
 
-void server_thread(Server* instance){
-	while (instance->_open){
+void serverThread(Server* server){
+	while (server->_open){
 
-
-		SDLNet_SocketSet set = SDLNet_AllocSocketSet(instance->_clients.size() + 1);
-
-		SDLNet_TCP_AddSocket(set, instance->_socket);
-
-		for (auto client : instance->_clients){
-			SDLNet_TCP_AddSocket(set, client.second);
-		}
-
+		SDLNet_SocketSet set = server->_socketSet();
 
 		int active = SDLNet_CheckSockets(set, 1000);
+
+		SDLNet_FreeSocketSet(set);
 
 		if (active < 0)
 			break;
@@ -23,42 +18,86 @@ void server_thread(Server* instance){
 		if (active == 0)
 			continue;
 
+		server->_checkServer();
 
-		if (SDLNet_SocketReady(instance->_socket) && instance->_clients.size() < instance->_maxClients){
-			TCPsocket incoming = SDLNet_TCP_Accept(instance->_socket);
+		server->_checkClients();
+	}
+}
 
-			if (incoming){
-				unsigned int i = instance->_register(incoming);
+SDLNet_SocketSet Server::_socketSet(){
+	SDLNet_SocketSet set = SDLNet_AllocSocketSet(_clients.size() + 1);
 
-				std::cout << "Client " << i << " connected!\n";
+	SDLNet_TCP_AddSocket(set, _socket);
+
+	for (auto client : _clients){
+		SDLNet_TCP_AddSocket(set, client.second);
+	}
+
+	return set;
+}
+
+void Server::_checkServer(){
+	// If new client incoming
+	if (SDLNet_SocketReady(_socket) && _clients.size() < _maxClients){
+		TCPsocket incoming = SDLNet_TCP_Accept(_socket);
+
+		if (incoming){
+			unsigned int i = _register(incoming);
+
+			std::string message = "Client " + std::to_string(i) + " joined!";
+
+			std::cout << message << "\n";
+
+			_sendExcluding(i, message);
+		}
+	}
+}
+
+void Server::_checkClients(){
+	// Check all existing clients
+	std::list<unsigned int> dropped;
+
+	for (auto client : _clients){
+		if (SDLNet_SocketReady(client.second)){
+			std::string message;
+
+			if (_getMessage(client.second, message) == false){
+				dropped.push_back(client.first);
+				continue;
 			}
+
+			message = "Client " + std::to_string(client.first) + " says: " + message;
+
+			std::cout << message << "\n";
+
+			_sendExcluding(client.first, message);
 		}
+	}
 
-		std::list<unsigned int> dropped;
+	// Erase dropped connections
+	for (unsigned int i : dropped){
+		_clients.erase(i);
 
-		for (auto client : instance->_clients){
-			if (SDLNet_SocketReady(client.second)){
-				char message[1024];
+		std::string message = "Client " + std::to_string(i) + " left...";
 
-				int length = SDLNet_TCP_Recv(client.second, message, 1024);
+		std::cout << message << "\n";
 
-				if (length <= 0){
-					dropped.push_back(client.first);
-					continue;
-				}
+		_sendAll(message);
+	}
+}
 
-				printf("Client %d says: \"%.*s\"\n", client.first, length, message);
-			}
-		}
+void Server::_sendAll(const std::string& message){
+	for (auto i : _clients){
+		_sendMessage(i.second, message);
+	}
+}
 
-		for (unsigned int i : dropped){
-			instance->_clients.erase(i);
+void Server::_sendExcluding(unsigned int client, const std::string& message){
+	for (auto i : _clients){
+		if (i.first == client)
+			continue;
 
-			std::cout << "Client " << i << " left...\n";
-		}
-
-
-		SDLNet_FreeSocketSet(set);
+		_sendMessage(i.second, message);
 	}
 }
 
@@ -86,32 +125,11 @@ int Server::_register(TCPsocket socket){
 	return i;
 }
 
-void Server::_send(unsigned int client, const std::string& data){
-	// Called when server sends data to client
-}
-
-void Server::_recieve(unsigned int client, const std::string& data){
-	// Called when client sends data to server
-}
-
-Server::Server(){
-	if (SDLNet_Init() == -1){
-		std::cout << "SDLNet_Init: " << SDLNet_GetError() << "\n";
-		return;
-	}
-}
-
-Server::~Server(){
-	close();
-	SDLNet_Quit();
-}
-
-bool Server::open(unsigned int port, unsigned int maxClients, std::string password){
+bool Server::open(unsigned int port, unsigned int maxClients){
 	close();
 
 	_port = port;
 	_maxClients = maxClients;
-	_password = password;
 
 	if (SDLNet_ResolveHost(&_ip, nullptr, _port) == -1){
 		std::cout << "SDLNet_ResolveHost: " << SDLNet_GetError() << "\n";
@@ -129,21 +147,16 @@ bool Server::open(unsigned int port, unsigned int maxClients, std::string passwo
 
 	_clients.reserve(_maxClients);
 
-	_thread = std::thread(server_thread, this);
-	_thread.detach();
-
+	_thread = std::thread(serverThread, this);
+	
 	return true;
 }
-
-// After the detach (above), and before the join (below), this instance is only edited by the thread
 
 void Server::close(){
 	if (_open){
 		_open = false;
 
 		_thread.join();
-
-		// Shut down server
 
 		_clients.clear();
 	}

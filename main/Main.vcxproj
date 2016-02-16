@@ -14,10 +14,12 @@
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Server.cpp" />
+    <ClCompile Include="Socket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.hpp" />
     <ClInclude Include="Server.hpp" />
+    <ClInclude Include="Socket.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{128FCD9F-E621-448F-BD11-375EF3FA9400}</ProjectGuid>
