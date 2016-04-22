@@ -12,13 +12,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="TestController.cpp" />
+    <ClCompile Include="ServerChat.cpp" />
+    <ClCompile Include="ServerGame.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TestController.hpp" />
+    <ClInclude Include="ServerChat.hpp" />
+    <ClInclude Include="ServerGame.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{9CC59555-1FC9-4B6B-AE72-7D4D88886565}</ProjectGuid>
+    <ProjectGuid>{29619CA8-8D05-48A1-AB88-B58E34D81C5B}</ProjectGuid>
     <RootNamespace>Main</RootNamespace>
     <ProjectName>Server</ProjectName>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
@@ -48,13 +50,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)include\SDL2-2.0.4;$(SolutionDir)include\SDL2_net-2.0.1;$(SolutionDir)source\NetworkBase;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)include\SDL2-2.0.4;$(SolutionDir)include\SDL2_net-2.0.1;$(SolutionDir)source\NetworkBase;$(SolutionDir)source\Defines;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\</OutDir>
     <IntDir>$(SolutionDir)build\$(Configuration)\$(ProjectName)\</IntDir>
     <LibraryPath>$(SolutionDir)bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)include\SDL2-2.0.4;$(SolutionDir)include\SDL2_net-2.0.1;$(SolutionDir)source\NetworkBase;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)include\SDL2-2.0.4;$(SolutionDir)include\SDL2_net-2.0.1;$(SolutionDir)source\NetworkBase;$(SolutionDir)source\Defines;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\</OutDir>
     <IntDir>$(SolutionDir)build\$(Configuration)\$(ProjectName)\</IntDir>
     <LibraryPath>$(SolutionDir)bin;$(LibraryPath)</LibraryPath>

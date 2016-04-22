@@ -1,24 +1,21 @@
+#include "ClientChat.hpp"
+#include "ClientGame.hpp"
+
 #include <Client.hpp>
 
-#include "TestView.hpp"
-
-#include <iostream>
-
 int main(int argc, char *argv[]){
-	std::string host;
+	Client* socket = new Client(3001, "localhost");
 
-	std::cout << "Entet Host: ";
-
-	std::cin >> host;
-
-	Client* socket = new Client(3001, host);
-
-	std::thread testView(TestViewThread, socket);
+	std::thread chatView(ChatViewThread, socket);
+	std::thread chatController(ChatControllerThread, socket);
+	std::thread gameViewController(GameViewControllerThread, socket);
 
 	while (socket->IsOpen())
 		socket->Update();
 
-	testView.join();
+	chatView.join();
+	chatController.join();
+	gameViewController.join();
 
 	return 0;
 }
