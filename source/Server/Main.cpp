@@ -1,22 +1,16 @@
-#include "Server.hpp"
+#include <Server.hpp>
 
-#include <iostream>
+#include "TestController.hpp"
 
 int main(int argc, char *argv[]){
-	if (SDL_Init(0) == -1){
-		std::cout << "SDL_Init: " << SDL_GetError() << "\n";
-		return 1;
-	}
+	Server* socket = new Server(3001);
 
-	Server server;
+	std::thread testController(TestControllerThread, socket);
 
-	server.open(1337, 4);
+	while (socket->IsOpen())
+		socket->Update();
 
-	getchar();
-	
-	server.close();
-	
-	SDL_Quit();
+	testController.join();
 
 	return 0;
 }

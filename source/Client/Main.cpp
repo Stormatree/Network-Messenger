@@ -1,34 +1,24 @@
-#include "Client.hpp"
+#include <Client.hpp>
 
-#include <string>
+#include "TestView.hpp"
+
 #include <iostream>
 
 int main(int argc, char *argv[]){
-	if (SDL_Init(0) == -1){
-		std::cout << "SDL_Init: " << SDL_GetError() << "\n";
-		return 1;
-	}
+	std::string host;
 
-	Client client;
-	
-	if (client.open("localhost", 1337)){
-		while (1){
-			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+	std::cout << "Entet Host: ";
 
-			std::string message;
+	std::cin >> host;
 
-			std::getline(std::cin, message);
-	
-			if (message == "q")
-				break;
-	
-			client.send(message);
-		}
-	
-		client.close();
-	}
-	
-	SDL_Quit();
+	Client* socket = new Client(3001, host);
+
+	std::thread testView(TestViewThread, socket);
+
+	while (socket->IsOpen())
+		socket->Update();
+
+	testView.join();
 
 	return 0;
 }
